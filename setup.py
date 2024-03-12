@@ -16,7 +16,7 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        hodl=hodl:main
+        hodl=hodl.cli:cli
     ''',
     classifiers=[
         'Development Status :: 3 - Alpha',
