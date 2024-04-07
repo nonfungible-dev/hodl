@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='hodl',
-    version='0.1.0',
+    name='hodl-cb',
+    version='0.2.0',
     author='NFP',
     author_email='nfp@pesky-penguins.com',
-    description='A CLI for DCAing into and out of crypto via the Coinbase Advanced API.',
+    description='Cryptocurrency dollar-cost averaging on the CLI (via the Coinbase Advanced API).',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',  # This is important for rendering markdown READMEs
     url='http://github.com/nonfungible_dev/hodl',
@@ -16,12 +16,11 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        hodl=hodl.cli:cli
+        hodl-cb=hodl.cli:cli
     ''',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
-        'Topic :: Cryptocurrency :: DCA Tools',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
