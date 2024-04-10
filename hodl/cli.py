@@ -73,7 +73,7 @@ def buy(usd, asset, threshold=None):
         asset_price = get_asset_price(client, asset)
         log.info(f"Asset price: {asset_price}")
         if asset_price > threshold:
-            log.info(f"Asset price is above threshold. No purchase will be made.")
+            log.info(f"Asset price is above threshold ({threshold}). No purchase will be made.")
             sys.exit(0)
     order = client.create_order(
         client_order_id=f"{int(time.time())}-buy-{asset}",
@@ -98,7 +98,7 @@ def sell(asset, qty, threshold=None):
         asset_price = get_asset_price(client, asset)
         log.info(f"Asset price: {asset_price}")
         if asset_price < threshold:
-            log.info(f"Asset price is below threshold. No sale will be made.")
+            log.info(f"Asset price is below threshold ({threshold}). No sale will be made.")
             sys.exit(0)
     order = client.create_order(
         client_order_id=f"{int(time.time())}-sell-{asset}",
