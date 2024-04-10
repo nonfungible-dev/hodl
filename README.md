@@ -12,7 +12,7 @@ source venv/bin/activate
 
 3. Install dependencies
 ```
-`pip install -r requirements.txt`
+pip install -r requirements.txt
 ```
 
 4. Set Environment Variables:
@@ -22,6 +22,24 @@ export COINBASE_API_SECRET="-----BEGIN EC PRIVATE KEY-----\nYOUR PRIVATE KEY\n--
 ```
 
 5. Run the CLI with `python hodl/cli.py`
+
+### Building a local binary
+You can build a binary for running locally like so:
+
+```bash
+pip install wheel
+python setup.py sdist bdist_wheel
+```
+
+Once the binary is created, you can install it with pip:
+
+```bash
+pip install dist/hodl_cb-0.2.1-py3-none-any.whl
+```
+
+...replacing `0.2.1` with the version number of the binary you created.
+
+Now, you should be able to invoke the CLI with `hodl` from within your virtual environment.
 
 ## Running on the Crontab
 Consider creating a shell script to invoke the application and then adding that to the crontab.
