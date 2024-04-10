@@ -81,7 +81,7 @@ def buy(usd, asset, threshold=None):
         side='BUY',
         order_configuration={
             "market_market_ioc": {
-                "quote_size": usd
+                "quote_size": str(usd)
             }
         }
     )
@@ -106,7 +106,7 @@ def sell(asset, qty, threshold=None):
         side='SELL',
         order_configuration={
             "market_market_ioc": {
-                "base_size": qty
+                "base_size": str(qty)
             }
         }
     )
