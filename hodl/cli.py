@@ -64,7 +64,7 @@ def balance(portfolio):
 
 @cli.command(help='Buy a desired asset with USD at the current market price')
 @click.option('--asset', help='The asset to buy', required=True)
-@click.option('--usd', help='The amount of USD to spend buying desired asset', required=True)
+@click.option('--usd', help='The amount of USD to spend buying desired asset', required=True, type=float)
 @click.option('--threshold', help='The asset price above which no purchases will be made', required=False, type=float)
 def buy(usd, asset, threshold=None):
     client = RESTClient()
@@ -90,7 +90,7 @@ def buy(usd, asset, threshold=None):
 
 @cli.command(help='Sell a desired asset for USD at the current market price')
 @click.option('--asset', help='The asset to sell', required=True)
-@click.option('--qty', help='The amount of crypto to sell', required=True)
+@click.option('--qty', help='The amount of crypto to sell', required=True, type=float)
 @click.option('--threshold', help='The minimum asset price required for sales to go through', required=False, type=float)
 def sell(asset, qty, threshold=None):
     client = RESTClient()
