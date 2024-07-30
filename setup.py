@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='hodl-cb',
-    version='0.2.4',
+    version='0.2.5',
     author='NFP',
     author_email='nfp@pesky-penguins.com',
     description='Cryptocurrency dollar-cost averaging on the CLI (via the Coinbase Advanced API).',

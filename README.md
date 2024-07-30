@@ -27,8 +27,8 @@ export COINBASE_API_SECRET="-----BEGIN EC PRIVATE KEY-----\nYOUR PRIVATE KEY\n--
 You can build a binary for running locally like so:
 
 ```bash
-pip install wheel
-python setup.py sdist bdist_wheel
+pip install build
+python -m build
 ```
 
 Once the binary is created, you can install it with pip:
