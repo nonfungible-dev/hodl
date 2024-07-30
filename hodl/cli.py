@@ -52,7 +52,7 @@ def cli():
 @cli.command(help='Get the balance(s) of your portfolio')
 @click.option('--portfolio', help='The name of the portfolio', required=False, default='Default')
 def balance(portfolio):
-    client = RESTClient() # Uses environment variables for API key and secret
+    client = RESTClient(api_key = os.environ.get('COINBASE_API_KEY'), api_secret = os.environ.get('COINBASE_API_SECRET')) # Uses environment variables for API key and secret
     portfolios = client.get_portfolios()['portfolios']
     p = next((p for p in portfolios if p['name'] == portfolio and p['deleted'] == False), None)
     if not p:
@@ -76,7 +76,7 @@ def balance(portfolio):
 @click.option('--btc', help='The amount of BTC to spend buying desired asset', required=False, type=float)
 @click.option('--threshold', help='The asset price above which no purchases will be made', required=False, type=float)
 def buy(asset, usd, btc, threshold=None):
-    client = RESTClient()
+    client = RESTClient(api_key = os.environ.get('COINBASE_API_KEY'), api_secret = os.environ.get('COINBASE_API_SECRET')) # Uses environment variables for API key and secret
     if not usd and not btc:
         log.error("Error: Must specify either --usd or --btc when buying crypto")
         sys.exit(1)
@@ -110,7 +110,7 @@ def buy(asset, usd, btc, threshold=None):
 @click.option('--quote', help='The asset to receive (USD, BTC, etc.)', required=True, default='USD')
 @click.option('--threshold', help='The minimum asset price required for sales to go through', required=False, type=float)
 def sell(asset, qty, quote, threshold=None):
-    client = RESTClient()
+    client = RESTClient(api_key = os.environ.get('COINBASE_API_KEY'), api_secret = os.environ.get('COINBASE_API_SECRET')) # Uses environment variables for API key and secret
     if threshold:
         asset_price = get_asset_price(client, asset, quote)
         log.info(f"Asset price: {asset_price}")
