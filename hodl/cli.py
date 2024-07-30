@@ -29,8 +29,8 @@ def assert_env_vars_set():
         log.error(f"Error: Missing required environment variables: {', '.join(missing_vars)}")
         sys.exit(1)
 
-def get_asset_price(client, asset, limit=0):
-    product_id = f"{asset}-USD"
+def get_asset_price(client, asset, quote='USD', limit=0):
+    product_id = f"{asset}-{quote}"
     trades = client.get_market_trades(product_id, limit)
     bid = float(trades['best_bid'])
     ask = float(trades['best_ask'])
@@ -70,48 +70,56 @@ def balance(portfolio):
         else:
             log.info(f"{account['asset']}: {account['total_balance_crypto']} (${account['total_balance_fiat']:,.2f})")
 
-
 @cli.command(help='Buy a desired asset with USD at the current market price')
 @click.option('--asset', help='The asset to buy', required=True)
-@click.option('--usd', help='The amount of USD to spend buying desired asset', required=True, type=float)
+@click.option('--usd', help='The amount of USD to spend buying desired asset', required=False, type=float)
+@click.option('--btc', help='The amount of BTC to spend buying desired asset', required=False, type=float)
 @click.option('--threshold', help='The asset price above which no purchases will be made', required=False, type=float)
-def buy(usd, asset, threshold=None):
+def buy(asset, usd, btc, threshold=None):
     client = RESTClient()
-    log.info(f"Buying {asset} with ${usd}")
+    if not usd and not btc:
+        log.error("Error: Must specify either --usd or --btc when buying crypto")
+        sys.exit(1)
+    if usd and btc:
+        log.error("Error: Cannot specify both --usd and --btc when buying crypto")
+        sys.exit(1)
+    quote = 'USD' if usd else 'BTC'
+    qty = usd if usd else btc
+    log.info(f"Buying {asset} with {qty} {quote}")
     if threshold:
-        asset_price = get_asset_price(client, asset)
+        asset_price = get_asset_price(client, asset, quote)
         log.info(f"Asset price: {asset_price}")
         if asset_price > threshold:
             log.info(f"Asset price is above threshold ({threshold}). No purchase will be made.")
             sys.exit(0)
     order = client.create_order(
-        client_order_id=f"{int(time.time())}-buy-{asset}",
-        product_id=f"{asset}-USD",
+        client_order_id=f"{int(time.time())}-buy-{asset}{quote}",
+        product_id=f"{asset}-{quote}",
         side='BUY',
         order_configuration={
             "market_market_ioc": {
-                "quote_size": str(usd)
+                "quote_size": str(qty)
             }
         }
     )
     log.info(f"Order placed: {dumps(order, indent=2)}")
 
-
 @cli.command(help='Sell a desired asset for USD at the current market price')
 @click.option('--asset', help='The asset to sell', required=True)
 @click.option('--qty', help='The amount of crypto to sell', required=True, type=float)
+@click.option('--quote', help='The asset to receive (USD, BTC, etc.)', required=True, default='USD')
 @click.option('--threshold', help='The minimum asset price required for sales to go through', required=False, type=float)
-def sell(asset, qty, threshold=None):
+def sell(asset, qty, quote, threshold=None):
     client = RESTClient()
     if threshold:
-        asset_price = get_asset_price(client, asset)
+        asset_price = get_asset_price(client, asset, quote)
         log.info(f"Asset price: {asset_price}")
         if asset_price < threshold:
             log.info(f"Asset price is below threshold ({threshold}). No sale will be made.")
             sys.exit(0)
     order = client.create_order(
-        client_order_id=f"{int(time.time())}-sell-{asset}",
-        product_id=f"{asset}-USD",
+        client_order_id=f"{int(time.time())}-sell-{asset}{quote}",
+        product_id=f"{asset}-{quote}",
         side='SELL',
         order_configuration={
             "market_market_ioc": {
