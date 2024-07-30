@@ -5,6 +5,7 @@ import logging
 import os
 import sys
 import time
+import re
 
 # Create a logger
 log = logging.getLogger(__name__)
@@ -35,13 +36,21 @@ def get_asset_price(client, asset, limit=0):
     ask = float(trades['best_ask'])
     return sum([bid, ask]) / 2
 
+def get_version():
+    with open("setup.py", "r") as f:
+        content = f.read()
+        version_match = re.search(r"version=['\"]([^'\"]*)['\"]", content)
+        if version_match:
+            return version_match.group(1)
+        return "Unknown"
 
 @click.group()
+@click.version_option(version=get_version(), prog_name="hodl")
 def cli():
     pass
 
 @cli.command(help='Get the balance(s) of your portfolio')
-@click.option('--portfolio', help='The name of the portoflio', required=False, default='Default')
+@click.option('--portfolio', help='The name of the portfolio', required=False, default='Default')
 def balance(portfolio):
     client = RESTClient() # Uses environment variables for API key and secret
     portfolios = client.get_portfolios()['portfolios']
