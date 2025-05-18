@@ -5,7 +5,7 @@ import os
 import sys
 import time
 import re
-from utils import CustomJSONEncoder, log_order_response
+from .utils import CustomJSONEncoder, log_order_response
 
 # Create a logger
 log = logging.getLogger(__name__)
