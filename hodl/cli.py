@@ -1,11 +1,11 @@
 import click
 from coinbase.rest import RESTClient
-from json import dumps
 import logging
 import os
 import sys
 import time
 import re
+from utils import CustomJSONEncoder, log_order_response
 
 # Create a logger
 log = logging.getLogger(__name__)
@@ -101,7 +101,7 @@ def buy(asset, usd, btc, threshold=None):
             }
         }
     )
-    log.info(f"Order placed: {dumps(order, indent=2)}")
+    log_order_response(order, log, "Buy order")
 
 @cli.command(help='Sell a desired asset for USD at the current market price')
 @click.option('--asset', help='The asset to sell', required=True)
@@ -126,7 +126,7 @@ def sell(asset, qty, quote, threshold=None):
             }
         }
     )
-    log.info(f"Order placed: {dumps(order, indent=2)}")
+    log_order_response(order, log, "Sell order")
 
 
 if __name__ == '__main__':

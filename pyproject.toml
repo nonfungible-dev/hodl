@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hodl-cb"
-version = "0.3.4"
+version = "0.4.0"
 description = "Cryptocurrency dollar-cost averaging on the CLI (via the Coinbase Advanced API)."
 readme = "README.md"
 authors = [
