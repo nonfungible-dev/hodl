@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=64.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hodl-cb"
+version = "0.3.3"
+description = "Cryptocurrency dollar-cost averaging on the CLI (via the Coinbase Advanced API)."
+readme = "README.md"
+authors = [
+    {name = "NFP", email = "nfp@pesky-penguins.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "click",
+    "coinbase-advanced-py",
+]
+
+[project.scripts]
+hodl = "hodl.cli:cli"
