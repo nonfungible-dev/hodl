@@ -37,11 +37,10 @@ def get_asset_price(client, asset, quote='USD', limit=0):
     return sum([bid, ask]) / 2
 
 def get_version():
-    with open("setup.py", "r") as f:
-        content = f.read()
-        version_match = re.search(r"version=['\"]([^'\"]*)['\"]", content)
-        if version_match:
-            return version_match.group(1)
+    try:
+        from importlib.metadata import version
+        return version("hodl-cb")
+    except Exception:
         return "Unknown"
 
 @click.group()
