@@ -28,16 +28,8 @@ You can build a binary for running locally like so:
 
 ```bash
 pip install build
-python -m build
+pip install -e .
 ```
-
-Once the binary is created, you can install it with pip:
-
-```bash
-pip install dist/hodl_cb-0.2.1-py3-none-any.whl
-```
-
-...replacing `0.2.1` with the version number of the binary you created.
 
 Now, you should be able to invoke the CLI with `hodl` from within your virtual environment.
 
